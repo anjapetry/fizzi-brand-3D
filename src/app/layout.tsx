@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="{alpino.variable}">
+    <html lang="en" className={alpino.variable}>
       <body>{children}</body>
       <PrismicPreview repositoryName={repositoryName} />
     </html>
