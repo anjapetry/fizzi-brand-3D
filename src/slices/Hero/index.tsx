@@ -1,11 +1,17 @@
+"use client";
+
 import { Content, asText } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
-import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
+import { PrismicNextImage } from "@prismicio/next";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 // imports from slices
 import { Bounded } from "@/components/Bounded";
 import Button from "@/components/Button";
 import { TextSplitter } from "@/components/TextSplitter";
+
+gsap.registerPlugin(useGSAP); // register the gsap plugin with the gsap library
 
 /**
  * Props for `Hero`.
@@ -16,11 +22,42 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
  * Component for "Hero" Slices.
  */
 const Hero = ({ slice }: HeroProps): JSX.Element => {
+  useGSAP(() => {
+    const introTl = gsap.timeline();
+
+    introTl
+      .set(".hero", { opacity: 1 })
+      .from(".hero-header-word", {
+        scale: 3,
+        opacity: 0,
+        ease: "power4.in",
+        delay: 0.3,
+        stagger: 1,
+      })
+      .from(
+        ".hero-subheading",
+        {
+          opacity: 0,
+          y: 30,
+        },
+        "+=.8",
+      )
+      .from(".hero-body", {
+        opacity: 0,
+        y: 10,
+      })
+      .from(".hero-button", {
+        opacity: 0,
+        y: 10,
+        duration: 0.6,
+      });
+  });
+
   return (
     <Bounded
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="hero"
+      className="hero opacity-0" // opacity-0 makes it invisible until the animation is complete in the useGSAP hook - to prevent flickering we also set the initial opacity to 1 in introTl.set above
     >
       <div className="grid">
         <div className="grid h-screen place-items-center">
