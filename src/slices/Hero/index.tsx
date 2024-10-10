@@ -16,6 +16,7 @@ import { TextSplitter } from "@/components/TextSplitter";
 import Scene from "./Scene";
 import { Bubbles } from "./Bubbles";
 import { useStore } from "@/hooks/useStore";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger); // register the gsap plugin with the gsap library
 
@@ -29,10 +30,11 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
  */
 const Hero = ({ slice }: HeroProps): JSX.Element => {
   const ready = useStore((state) => state.ready); // check if the slice is ready
+  const isDesktop = useMediaQuery("(min-width: 768px)", true); // check if the screen is desktop
 
   useGSAP(
     () => {
-      if (!ready) return; // wait for the slice to be ready
+      if (!ready && isDesktop) return; // wait for the slice to be ready
 
       const introTl = gsap.timeline();
 
@@ -99,7 +101,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
           opacity: 0,
         });
     },
-    { dependencies: [ready] },
+    { dependencies: [ready, isDesktop] },
   );
 
   return (
@@ -108,10 +110,12 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
       data-slice-variation={slice.variation}
       className="hero opacity-0" // opacity-0 makes it invisible until the animation is complete in the useGSAP hook - to prevent flickering we also set the initial opacity to 1 in introTl.set above
     >
-      <View className="hero-scene ffpointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block">
-        <Scene />
-        <Bubbles count={300} speed={2} repeat={true} />
-      </View>
+      {isDesktop && ( // only render the animated cans if the screen is desktop
+        <View className="hero-scene ffpointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block">
+          <Scene />
+          <Bubbles count={300} speed={2} repeat={true} />
+        </View>
+      )}
       <div className="grid">
         <div className="grid h-screen place-items-center">
           <div className="grid auto-rows-min place-items-center text-center">
