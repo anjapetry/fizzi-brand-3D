@@ -1,6 +1,9 @@
+"use client";
+
 import { useRef } from "react";
 import * as THREE from "three";
 
+import { Environment } from "@react-three/drei";
 import FloatingCan from "@/components/FloatingCan";
 
 type Props = {};
@@ -16,6 +19,8 @@ export default function Scene({}: Props) {
   return (
     <group ref={groupRef}>
       <FloatingCan ref={canRef}></FloatingCan>
+      <ambientLight intensity={2} color="#9DDEFA" />
+      <Environment files="/hdr/field.hdr" environmentIntensity={1.5} />
     </group>
   );
 }
