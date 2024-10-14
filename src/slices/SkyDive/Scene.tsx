@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import * as THREE from "three";
 
-import { Environment } from "@react-three/drei";
+import { Cloud, Clouds, Environment, OrbitControls } from "@react-three/drei";
 import FloatingCan from "@/components/FloatingCan";
 
 type Props = {};
@@ -18,7 +18,21 @@ export default function Scene({}: Props) {
 
   return (
     <group ref={groupRef}>
-      <FloatingCan ref={canRef}></FloatingCan>
+      <group rotation={[0, 0, 0.5]}>
+        <FloatingCan ref={canRef}></FloatingCan>
+      </group>
+
+      {/* Clouds */}
+      <Clouds ref={cloudsRef}>
+        <Cloud ref={cloud1Ref} bounds={[10, 10, 2]} />
+        <Cloud ref={cloud2Ref} bounds={[10, 10, 2]} />
+      </Clouds>
+
+       {/* Words */}
+
+      <OrbitControls />
+
+      {/* Lights */}
       <ambientLight intensity={2} color="#9DDEFA" />
       <Environment files="/hdr/field.hdr" environmentIntensity={1.5} />
     </group>
