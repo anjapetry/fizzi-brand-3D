@@ -3,12 +3,16 @@
 import { useRef } from "react";
 import * as THREE from "three";
 
+import { Content } from "@prismicio/client";
 import { Cloud, Clouds, Environment, OrbitControls } from "@react-three/drei";
 import FloatingCan from "@/components/FloatingCan";
 
-type Props = {};
+type SkyDiveProps = {
+  sentence: string | null;
+  flavor: Content.SkyDiveSliceDefaultPrimary["flavor"];
+};
 
-export default function Scene({}: Props) {
+export default function Scene({ sentence, flavor }: SkyDiveProps) {
   const groupRef = useRef<THREE.Group>(null);
   const canRef = useRef<THREE.Group>(null);
   const cloud1Ref = useRef<THREE.Group>(null);
@@ -19,7 +23,7 @@ export default function Scene({}: Props) {
   return (
     <group ref={groupRef}>
       <group rotation={[0, 0, 0.5]}>
-        <FloatingCan ref={canRef}></FloatingCan>
+        <FloatingCan ref={canRef} flavor={flavor}></FloatingCan>
       </group>
 
       {/* Clouds */}
@@ -28,7 +32,7 @@ export default function Scene({}: Props) {
         <Cloud ref={cloud2Ref} bounds={[10, 10, 2]} />
       </Clouds>
 
-       {/* Words */}
+      {/* Words */}
 
       <OrbitControls />
 
