@@ -111,7 +111,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
       className="hero opacity-0" // opacity-0 makes it invisible until the animation is complete in the useGSAP hook - to prevent flickering we also set the initial opacity to 1 in introTl.set above
     >
       {isDesktop && ( // only render the animated cans if the screen is desktop
-        <View className="hero-scene ffpointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block">
+        <View className="hero-scene pointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block">
           <Scene />
           <Bubbles count={300} speed={2} repeat={true} />
         </View>
